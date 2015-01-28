@@ -300,6 +300,9 @@ ShaderProgram::ShaderProgram():
     mVertShader(0),
     mFragShader(0)
 {
+#ifdef OPENVDB_USE_GLEW
+    glewInit();
+#endif
 }
 
 ShaderProgram::~ShaderProgram() { clear(); }

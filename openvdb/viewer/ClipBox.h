@@ -33,12 +33,16 @@
 
 #include <openvdb/Types.h>
 
+#ifdef OPENVDB_USE_GLEW
+#include <GL/glew.h>
+#else
 #if defined(__APPLE__) || defined(MACOSX)
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
 #else
 #include <GL/gl.h>
 #include <GL/glu.h>
+#endif
 #endif
 
 

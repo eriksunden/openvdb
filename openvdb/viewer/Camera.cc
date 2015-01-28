@@ -32,16 +32,22 @@
 
 #include <cmath>
 
+#ifdef OPENVDB_USE_GLEW
+#include <GL/glew.h>
+#endif
+
 #ifdef OPENVDB_USE_GLFW_3
 #define GLFW_INCLUDE_GLU
 #include <GLFW/glfw3.h>
-#else // if !defined(OPENVDB_USE_GLFW_3)
+#else
+#if !defined(OPENVDB_USE_GLEW)
 #if defined(__APPLE__) || defined(MACOSX)
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
 #else
 #include <GL/gl.h>
 #include <GL/glu.h>
+#endif
 #endif
 #include <GL/glfw.h>
 #endif // !defined(OPENVDB_USE_GLFW_3)

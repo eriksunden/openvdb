@@ -46,18 +46,24 @@
 #include <vector>
 #include <limits>
 #include <boost/thread/thread.hpp>
-#include <time.h> // for nanosleep()
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/thread/thread.hpp>
+
+#ifdef OPENVDB_USE_GLEW
+#include <GL/glew.h>
+#endif
 
 #ifdef OPENVDB_USE_GLFW_3
-//#define GLFW_INCLUDE_GLU
 #include <GLFW/glfw3.h>
-#else // if !defined(OPENVDB_USE_GLFW_3)
+#else
+#if !defined(OPENVDB_USE_GLEW)
 #if defined(__APPLE__) || defined(MACOSX)
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
 #else
 #include <GL/gl.h>
 #include <GL/glu.h>
+#endif
 #endif
 #include <GL/glfw.h>
 #endif // !defined(OPENVDB_USE_GLFW_3)
@@ -248,6 +254,9 @@ windowRefreshCB()
 Viewer
 init(const std::string& progName, bool background)
 {
+#ifdef OPENVDB_USE_GLEW
+    glewInit();
+#endif
     if (sViewer == NULL) {
         tbb::mutex::scoped_lock lock(sLock);
         if (sViewer == NULL) {
@@ -835,8 +844,7 @@ ViewerImpl::sleep(double secs)
 {
     secs = fabs(secs);
     int isecs = int(secs);
-    struct timespec sleepTime = { isecs /*sec*/, int(1.0e9 * (secs - isecs)) /*nsec*/ };
-    nanosleep(&sleepTime, /*remainingTime=*/NULL);
+    boost::this_thread::sleep(boost::posix_time::seconds(isecs));
 }
 
 
