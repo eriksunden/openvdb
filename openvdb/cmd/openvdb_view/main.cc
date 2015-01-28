@@ -28,7 +28,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////
 
-#include <openvdb_viewer/Viewer.h>
+#include <openvdb/viewer/Viewer.h>
 #include <iostream>
 #include <string>
 #include <vector>
